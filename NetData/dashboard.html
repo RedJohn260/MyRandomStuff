@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>NetData Dashboard</title>
+    <meta name="application-name" content="netdata">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <script>var netdataTheme = 'slate';</script>
+    <script type="text/javascript" src="http://192.168.100.6:19999/dashboard.js"></script>
+    <script>
+        // Set options for TV operation
+        // This has to be done, after dashboard.js is loaded
+        // destroy charts not shown (lowers memory on the browser)
+        NETDATA.options.current.destroy_on_hide = true;
+        // set this to false, to always show all dimensions
+        NETDATA.options.current.eliminate_zero_dimensions = true;
+        // lower the pressure on this browser
+        NETDATA.options.current.concurrent_refreshes = false;
+        // if the tv browser is too slow (a pi?)
+        // set this to false
+        NETDATA.options.current.parallel_refresher = true;
+        // always update the charts, even if focus is lost
+        NETDATA.options.current.stop_updates_when_focus_is_lost = false;
+        // Since you may render charts from many servers and any of them may
+        // become offline for some time, the charts will break.
+        // This will reload the page every RELOAD_EVERY minutes
+        //var RELOAD_EVERY = 5;
+        setTimeout(function() {
+          location.reload();
+        }, RELOAD_EVERY * 60 * 1000);
+      </script>
+</head>
+
+<script>
+    // --- OPTIONS FOR THE DASHBOARD --
+    // var netdataTheme = 'default'; // this is white
+    var netdataTheme = 'slate'; // this is dark
+
+    //var netdataNoBootstrap = true;
+
+    // Set the default netdata server.
+    // on charts without a 'data-host', this one will be used.
+    // the default is the server that dashboard.js is downloaded from.
+
+    // var netdataServer = 'http://my.server:19999/';
+</script>
+
+<body style="height: -webkit-fill-available; margin: 51% 0px 51% 0px; background-color: black;">
+
+    <div class="container" style="display: block; margin: auto; position: relative; top: 7%; width: 100%; text-align: center;">
+
+      <div class="netdata-chart-row">
+        <!---->
+        <div class="netdata-container-gauge" style="margin-right: 10px; width: 50%; will-change: transform;" data-width="40%" data-height="100%" data-netdata="system.cpu" data-chart-library="gauge" data-title="CPU" data-units="%" data-gauge-max-value="100" data-width="20%" data-after="-300"
+          data-points="300" data-colors="#f89500" role="application">
+        </div>
+        <!---->
+        <div class="netdata-container-gauge" style="margin-right: 10px; width: 50%; will-change: transform;" data-width="40%" data-height="100%" data-netdata="system.ram" data-dimensions="used|buffers|active|wired" data-chart-library="gauge" data-title="RAM" data-gauge-max-value="8000" data-width="20%" data-after="-600"
+          data-points="600" data-colors="#560079" role="application">
+        </div>
+      </div>
+      <!---->
+      <div class="netdata-chart-row">
+        <!---->
+        <div class="netdata-container-gauge" style="margin-right: 10px; width: 50%; will-change: transform;" data-width="40%" data-height="100%" data-netdata="sensors.nouveau-pci-0200_temperature" data-dimensions="temp1" data-chart-library="gauge" data-title="TEMP" data-gauge-max-value="80" data-units="°C" data-after="-300"
+            data-points="600" data-colors="#008000">
+        </div>
+        <!---->
+        <div class="netdata-container-gauge" style="margin-right: 10px; width: 50%; will-change: transform;" data-width="40%" data-height="100%" data-netdata="sensors.fam15h_power-pci-00c4_power" data-dimensions="power1" data-chart-library="gauge" data-title="POWER" data-gauge-max-value="10000" data-units="Watt" data-after="-300"
+            data-points="600" data-colors="#800000">
+        </div>
+      </div>
+      <!---->
+    </div>
+  </body>
+</html>
