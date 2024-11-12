@@ -3,6 +3,8 @@ const multer = require('multer');
 const ejs = require('ejs');
 const path = require('path');
 const os = require('os');
+const fs = require('fs');
+const uploadDir = './uploads';
 
 const app = express();
 
@@ -13,6 +15,11 @@ const httpadress = "http://"+ localIpAddress.toString() + ":" + httpport.toStrin
 // Set up EJS template engine
 app.set('view engine', 'ejs');
 
+// Ensure upload directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 // Set the storage engine for Multer
 const storage = multer.diskStorage({
     destination: './uploads/',
@@ -21,10 +28,9 @@ const storage = multer.diskStorage({
     },
   });
   
-
 const upload = multer({
   storage: storage,
-}).single('myFile'); // 'myFile' is the name of the file input field in your HTML form
+}).array('myFiles'); // 'myFiles' is the name of the file input field in your HTML form
 
 // Static folder for uploaded files
 app.use(express.static('./uploads'));
@@ -52,12 +58,12 @@ app.post('/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       console.error(err);
-      res.render('index', { msg: 'Error uploading file', files: [] });
+      res.render('index', { msg: 'Error uploading files', files: [] });
     } else {
       res.redirect('/');
     }
   });
-});
+});  
 
 const PORT = process.env.PORT || httpport;
 //app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
